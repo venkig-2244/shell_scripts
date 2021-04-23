@@ -42,6 +42,15 @@ sudo tar -czf $filename *.log
 sudo mv *.gz /tmp/
 cd $cur_dir
 
+dpkg -s awscli &> /dev/null
+if [ $? -eq 0 ]
+then 
+    echo "awscli is already installed."
+else 
+    echo "awscli is not installed. Installing.."
+    sudo apt install awscli -y &> /dev/null
+fi
+
 echo "Uploading $filename to S3 bucket.."
 aws s3 cp /tmp/$filename s3://upgrad-venkatesh//$filename
 
